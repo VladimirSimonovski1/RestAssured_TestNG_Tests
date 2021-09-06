@@ -1,50 +1,77 @@
-import io.restassured.http.ContentType;
-import model.RegisterLoginResponseModel;
+import lombok.extern.java.Log;
+import model.UserRequestModel;
+import model.UserResponseModel;
 import model.UsersResponseModel;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static client.Clients.createUser;
-import static config.Endpoints.GET_USERS;
-import static config.Endpoints.LOGIN;
-import static io.restassured.RestAssured.given;
+import static client.Clients.deleteUser;
+import static client.Clients.getTokenFromApi;
+import static client.Clients.getUser;
+import static client.Clients.getUsers;
+import static client.Clients.logoutFromApi;
+import static client.Clients.updateUser;
 import static payload.RegisterLoginRequestPayload.registerLoginRequestBody;
-import static payload.UserRequestPayload.userRequestBody;
+import static payload.UserRequestPayload.userCreateBody;
+import static payload.UserRequestPayload.userUpdateBody;
+import static validation.assertion.TestAssertion.assertSuccessfulCreateUsersResponse;
+import static validation.assertion.TestAssertion.assertSuccessfulGetUserResponse;
 import static validation.assertion.TestAssertion.assertSuccessfulGetUsersResponse;
-import static validation.spec.ResponseSpec.expect200StatusCode;
+import static validation.assertion.TestAssertion.assertSuccessfulUpdateUsersResponse;
 
-
+@Log
 public class RestAssuredTestNGTests {
 
     private static String loginToken;
-    private UsersResponseModel userResponseBody;
 
     @BeforeClass
     public void login() {
-        loginToken =
-                given().header("Content-Type", ContentType.JSON).
-                        and().body(registerLoginRequestBody).
-                        when().post(LOGIN).
-                        then().assertThat().spec(expect200StatusCode).
-                        and().extract().body().as(RegisterLoginResponseModel.class).getToken();
+        loginToken = getTokenFromApi(registerLoginRequestBody);
+        log.info("GET TOKEN RESPONSE BODY: " + registerLoginRequestBody);
+        log.info("LOGIN TOKEN: " + loginToken);
+    }
 
-        System.out.println("BODY: " + registerLoginRequestBody);
-        System.out.println("LOGIN TOKEN: " + loginToken);
+    @AfterClass
+    public void logout() {
+        logoutFromApi();
+        log.info("LOGOUT SUCCESSFUL!");
     }
 
     @Test
     public void getUsersTest(){
-        userResponseBody = given().header("Authorization", "Bearer " + loginToken).
-                        when().get(GET_USERS).
-                        then().assertThat().spec(expect200StatusCode).
-                        and().extract().body().as(UsersResponseModel.class);
-
+        UsersResponseModel userResponseBody = getUsers(loginToken);
+        log.info("GET USERS RESPONSE BODY: " + userResponseBody);
         assertSuccessfulGetUsersResponse(userResponseBody);
     }
 
     @Test
+    public void getUserTest(){
+        UserResponseModel userResponseBody = getUser(loginToken, 1);
+        log.info("GET USER RESPONSE BODY: " + userResponseBody);
+        assertSuccessfulGetUserResponse(userResponseBody);
+
+    }
+
+    @Test
     public void createUserTest(){
-        createUser(loginToken, userRequestBody);
+        UserRequestModel userResponseBody =  createUser(loginToken, userCreateBody);
+        log.info("CREATE USER RESPONSE BODY: " + userResponseBody);
+        assertSuccessfulCreateUsersResponse(userResponseBody);
+    }
+
+    @Test
+    public void updateUserTest(){
+        UserRequestModel userResponseBody = updateUser(loginToken, userUpdateBody);
+        log.info("UPDATE USER RESPONSE BODY: " + userResponseBody);
+        assertSuccessfulUpdateUsersResponse(userResponseBody);
+    }
+
+    @Test
+    public void deleteUserTest(){
+        deleteUser(loginToken);
+        log.info("SUCCESSFULLY DELETED USER!");
 
     }
 }

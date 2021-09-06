@@ -7,6 +7,7 @@ import io.restassured.specification.ResponseSpecification;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class ResponseSpec {
@@ -20,6 +21,11 @@ public class ResponseSpec {
     public static ResponseSpecification expect201StatusCode = new ResponseSpecBuilder()
             .expectStatusCode(SC_CREATED)
             .expectContentType(ContentType.JSON)
+            .log(LogDetail.ALL)
+            .build();
+
+    public static ResponseSpecification expect204StatusCode = new ResponseSpecBuilder()
+            .expectStatusCode(SC_NO_CONTENT)
             .log(LogDetail.ALL)
             .build();
 
