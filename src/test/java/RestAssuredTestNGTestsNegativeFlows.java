@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import static client.Clients.createUser;
 import static client.Clients.deleteUser;
+import static client.Clients.getEmptyResponse;
 import static client.Clients.getTokenFromApi;
 import static client.Clients.getUser;
 import static client.Clients.getUsers;
@@ -22,7 +23,7 @@ import static validation.assertion.TestAssertion.assertSuccessfulGetUsersRespons
 import static validation.assertion.TestAssertion.assertSuccessfulUpdateUsersResponse;
 
 @Log
-public class RestAssuredTestNGTests {
+public class RestAssuredTestNGTestsNegativeFlows {
 
     private static String loginToken;
 
@@ -40,38 +41,7 @@ public class RestAssuredTestNGTests {
     }
 
     @Test
-    public void getUsersTest(){
-        UsersResponseModel userResponseBody = getUsers(loginToken);
-        log.info("GET USERS RESPONSE BODY: " + userResponseBody);
-        assertSuccessfulGetUsersResponse(userResponseBody);
-    }
-
-    @Test
-    public void getUserTest(){
-        UserResponseModel userResponseBody = getUser(loginToken, 1);
-        log.info("GET USER RESPONSE BODY: " + userResponseBody);
-        assertSuccessfulGetUserResponse(userResponseBody);
-
-    }
-
-    @Test
-    public void createUserTest(){
-        UserRequestModel userResponseBody =  createUser(loginToken, userCreateBody);
-        log.info("CREATE USER RESPONSE BODY: " + userResponseBody);
-        assertSuccessfulCreateUsersResponse(userResponseBody);
-    }
-
-    @Test
-    public void updateUserTest(){
-        UserRequestModel userResponseBody = updateUser(loginToken, userUpdateBody);
-        log.info("UPDATE USER RESPONSE BODY: " + userResponseBody);
-        assertSuccessfulUpdateUsersResponse(userResponseBody);
-    }
-
-    @Test
-    public void deleteUserTest(){
-        deleteUser(loginToken);
-        log.info("SUCCESSFULLY DELETED USER!");
-
+    public void shouldGetEmptyResponseForUserNotFound() {
+        getEmptyResponse(loginToken, 1534036, 0);
     }
 }

@@ -1,12 +1,14 @@
 package client;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.ResponseSpecification;
 import model.RegisterLoginResponseModel;
 
 import java.lang.reflect.Type;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.is;
 
 public abstract class Base {
 
@@ -14,6 +16,12 @@ public abstract class Base {
         return given().header("Content-Type", ContentType.JSON).header("Authorization", "Bearer " + token).
                 when().get(endpoint).
                 then().spec(statusCode).log().all().extract().body().as(type);
+    }
+
+    public static ValidatableResponse get(String token, String endpoint, ResponseSpecification statusCode, int responseSize) {
+        return given().header("Content-Type", ContentType.JSON).header("Authorization", "Bearer " + token).
+                when().get(endpoint).
+                then().assertThat().spec(statusCode).body("size()", is(responseSize)).log().all();
     }
 
     public static <T> T post(String token, Object body, String endpoint, ResponseSpecification statusCode, Type type) {

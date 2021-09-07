@@ -10,8 +10,8 @@ In this **README.md** you will find all the necessary info about this framework 
 ### Code & Frameworks
 
 - Language used: Java
-- HTTP library: HTTP Apache Client
-- Test Framework: JUnit
+- Test Library: Rest Assured
+- Test Framework: TestNG
 - Request/Response model: Project Lombok
 - Assertion Framework: Hamcrest Assertions
 
@@ -22,5 +22,5 @@ In this **README.md** you will find all the necessary info about this framework 
 
 ### How to run the tests:
 
-1. Open Maven Goal and type: **mvn clean install test** (it will run the tests and create an .xml surefire report in the target folder
-2. Open Terminal, navigate to the root project and enter: **allure serve target/surefire-reports** (this will convert the .xml into an .html format and will automatically open the report in a browser)
+1. Right-click on the **testng.xml** and run the file.(it will run the tests and create allure-results folder in /target which includes the test results in a JSO format
+2. Open Terminal, navigate to the root project and enter: **allure serve target/allure-results** (this will convert the .json into an .html format and will automatically open the report in a browser)

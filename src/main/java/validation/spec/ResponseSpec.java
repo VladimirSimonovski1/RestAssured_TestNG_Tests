@@ -7,6 +7,7 @@ import io.restassured.specification.ResponseSpecification;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 
@@ -29,8 +30,8 @@ public class ResponseSpec {
             .log(LogDetail.ALL)
             .build();
 
-    public static ResponseSpecification expect400StatusCode = new ResponseSpecBuilder()
-            .expectStatusCode(SC_BAD_REQUEST)
+    public static ResponseSpecification expect404StatusCode = new ResponseSpecBuilder()
+            .expectStatusCode(SC_NOT_FOUND)
             .expectContentType(ContentType.JSON)
             .log(LogDetail.ALL)
             .build();

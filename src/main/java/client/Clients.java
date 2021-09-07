@@ -16,6 +16,7 @@ import static config.Endpoints.UPDATE_USER;
 import static validation.spec.ResponseSpec.expect200StatusCode;
 import static validation.spec.ResponseSpec.expect201StatusCode;
 import static validation.spec.ResponseSpec.expect204StatusCode;
+import static validation.spec.ResponseSpec.expect404StatusCode;
 
 public class Clients extends Base {
 
@@ -45,5 +46,9 @@ public class Clients extends Base {
 
     public static void deleteUser(String token) {
         delete(token, DELETE_USER, expect204StatusCode);
+    }
+
+    public static ValidatableResponse getEmptyResponse(String token, int userId, int responseSize) {
+        return get(token, GET_USER + userId, expect404StatusCode, responseSize);
     }
 }
