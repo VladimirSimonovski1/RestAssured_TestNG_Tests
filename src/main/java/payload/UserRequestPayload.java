@@ -1,5 +1,6 @@
 package payload;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import model.UserRequestModel;
 
 public class UserRequestPayload {
@@ -13,4 +14,11 @@ public class UserRequestPayload {
             .name("Test")
             .job("Test")
             .build();
+
+    public static UserRequestModel userRequestBody(String name, String job) {
+        return UserRequestModel.builder()
+                .name(name)
+                .job(job)
+                .build();
+    }
 }

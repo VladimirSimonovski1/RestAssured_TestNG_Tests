@@ -3,6 +3,7 @@
 <suite name="Rest Assured Test Suite">
     <test verbose="2" preserve-order="true" name="Rest_Assured_Test">
         <classes>
+            <class name="RestAssuredTestNGTestsDataProvider"/>
             <class name="RestAssuredTestNGTestsHappyFlows"/>
             <class name="RestAssuredTestNGTestsNegativeFlows"/>
         </classes>

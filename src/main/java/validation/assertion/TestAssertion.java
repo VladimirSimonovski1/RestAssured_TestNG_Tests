@@ -55,10 +55,36 @@ public class TestAssertion {
         ));
     }
 
+    public static void assertSuccessfulGetUserResponse(UserResponseModel userResponseBody, int userId, String email ,String firstName, String lastName, String avatar) {
+        assertThat(userResponseBody, allOf(
+                hasProperty("data", allOf(
+                                hasProperty("id", is(equalTo(userId))),
+                                hasProperty("email", is(equalTo(email))),
+                                hasProperty("first_name", is(equalTo(firstName))),
+                                hasProperty("last_name", is(equalTo(lastName))),
+                                hasProperty("avatar", is(equalTo(avatar)))
+                        )
+                ),
+                hasProperty("support", allOf(
+                        hasProperty("url", is(equalTo("https://reqres.in/#support-heading"))),
+                        hasProperty("text", is(equalTo("To keep ReqRes free, contributions towards server costs are appreciated!")))
+                ))
+        ));
+    }
+
     public static void assertSuccessfulCreateUsersResponse(UserRequestModel userRequestBody) {
         assertThat(userRequestBody, allOf(
                 hasProperty("name", is(equalTo("Vladimir"))),
                 hasProperty("job", is(equalTo("QA"))),
+                hasProperty("id", is(notNullValue())),
+                hasProperty("createdAt", is(notNullValue()))
+        ));
+    }
+
+    public static void assertSuccessfulCreateUsersResponse(UserRequestModel userRequestBody, String name, String job) {
+        assertThat(userRequestBody, allOf(
+                hasProperty("name", is(equalTo(name))),
+                hasProperty("job", is(equalTo(job))),
                 hasProperty("id", is(notNullValue())),
                 hasProperty("createdAt", is(notNullValue()))
         ));
