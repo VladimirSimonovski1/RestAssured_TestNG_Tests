@@ -1,17 +1,15 @@
 package validation.assertion;
 
-import io.restassured.response.Response;
+import model.RegisterLoginResponseModel;
 import model.UserRequestModel;
 import model.UserResponseModel;
 import model.UsersResponseModel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -95,6 +93,13 @@ public class TestAssertion {
                 hasProperty("name", is(equalTo("Test"))),
                 hasProperty("job", is(equalTo("Test"))),
                 hasProperty("updatedAt", is(notNullValue()))
+        ));
+    }
+
+    public static void assertSuccessfulRegisterUsersResponse(RegisterLoginResponseModel registerLoginResponseBody) {
+        assertThat(registerLoginResponseBody, allOf(
+                hasProperty("id", is(equalTo(4))),
+                hasProperty("token", is(notNullValue()))
         ));
     }
 }

@@ -1,7 +1,7 @@
 package client;
 
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import model.RegisterLoginResponseModel;
 import model.UserRequestModel;
 import model.UserResponseModel;
 import model.UsersResponseModel;
@@ -12,6 +12,7 @@ import static config.Endpoints.GET_USER;
 import static config.Endpoints.GET_USERS;
 import static config.Endpoints.LOGIN;
 import static config.Endpoints.LOGOUT;
+import static config.Endpoints.REGISTER_USER;
 import static config.Endpoints.UPDATE_USER;
 import static validation.spec.ResponseSpec.expect200StatusCode;
 import static validation.spec.ResponseSpec.expect201StatusCode;
@@ -50,5 +51,9 @@ public class Clients extends Base {
 
     public static ValidatableResponse getEmptyResponse(String token, int userId, int responseSize) {
         return get(token, GET_USER + userId, expect404StatusCode, responseSize);
+    }
+
+    public static RegisterLoginResponseModel registerUser(String token, Object payload) {
+        return post(token, payload, REGISTER_USER, expect200StatusCode, RegisterLoginResponseModel.class);
     }
 }

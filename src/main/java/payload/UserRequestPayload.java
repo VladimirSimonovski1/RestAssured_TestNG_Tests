@@ -1,6 +1,5 @@
 package payload;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import model.UserRequestModel;
 
 public class UserRequestPayload {
