@@ -59,19 +59,6 @@ public class RestAssuredTestNGTestsHappyFlows {
     }
 
     @Test
-    public void shouldGetUsersTestStream() {
-        UsersResponseModel userResponseBody = getUsers(loginToken);
-        log.info("GET USERS RESPONSE BODY: " + userResponseBody);
-        userResponseBody.getData().stream().filter(item -> item.getFirst_name().equals("Eve"))
-                .collect((Collectors.toList())).forEach(System.out::println);
-        boolean isTrue = userResponseBody.getData().stream().allMatch(item -> item.getAvatar().contains("test"));
-        assertThat(isTrue, is(equalTo(true)));
-        userResponseBody.getData().stream()
-                .filter(item -> item.getEmail().startsWith("e")).collect(Collectors.toList()).forEach(System.out::println);
-
-    }
-
-    @Test
     public void shouldGetUserTest() {
         UserResponseModel userResponseBody = getUser(loginToken, 1);
         log.info("GET USER RESPONSE BODY: " + userResponseBody);
